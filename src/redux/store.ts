@@ -1,13 +1,17 @@
+import { useDispatch } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 
-import productReducer from "./reducers/productReducer";
-import { useDispatch } from "react-redux";
-// import usersReducer from "./reducers/usersReducer";
+import productsReducer from "./reducers/productReducer";
+import usersReducer from "./reducers/userReducer";
+import cartsReducer from "./reducers/cartReducer";
+import ordersReducer from "./reducers/orderReducer";
 
 const store = configureStore({
   reducer: {
-    productReducer,
-    // usersReducer,
+    productsReducer,
+    usersReducer,
+    cartsReducer,
+    ordersReducer,
   },
 });
 export type AppState = ReturnType<typeof store.getState>;

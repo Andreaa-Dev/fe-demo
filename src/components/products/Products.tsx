@@ -6,21 +6,14 @@ import {
   addOne,
   fetchAllProductAsync,
 } from "../../redux/reducers/productReducer";
+import ProductItem from "./ProductItem";
 
 export default function Products() {
-  const products = useSelector((state: AppState) => state.productReducer);
+  const products = useSelector(
+    (state: AppState) => state.productsReducer.products
+  );
   const dispatch = useAppDispatch();
 
-  const onAddNew = () => {
-    dispatch(
-      addOne({
-        id: "wdfsdfsd",
-        price: 50,
-        title: "sdfsdf",
-        description: "sdfsd",
-      })
-    );
-  };
   useEffect(() => {
     dispatch(fetchAllProductAsync());
   }, [dispatch]);
@@ -28,7 +21,9 @@ export default function Products() {
   console.log("products list: ", products);
   return (
     <div>
-      <button onClick={onAddNew}>Add new product</button>
+      {products.map((product) => (
+        <ProductItem product={product} />
+      ))}
     </div>
   );
 }

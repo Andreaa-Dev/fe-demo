@@ -2,6 +2,8 @@ import { Button, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { url } from "../../common/common";
+import { useDispatch } from "react-redux";
+import * as UserActions from "../../redux/reducers/userReducer";
 
 export default function UserRegister() {
   const [userInformation, setUserInformation] = useState({
@@ -19,6 +21,7 @@ export default function UserRegister() {
   }
 
   const userUrl = `${url}/users/signup`;
+  const dispatch = useDispatch();
   function registerHandler() {
     // send data to backend
     axios
@@ -28,17 +31,13 @@ export default function UserRegister() {
         if (response.status === 201) {
           alert("created!");
         }
-        // const userResponse = response.user;
-        // get user by email?
-        // save in redux
-        // navigate to the log in page
+        dispatch(UserActions.getUserInformation(response.data.user));
       })
       .catch((error) => {
         if (error.response.status === 400) {
           alert(error.response.data.message);
         }
       });
-    // redux - dispatch action
   }
   return (
     <div>

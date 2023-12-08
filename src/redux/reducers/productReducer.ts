@@ -1,5 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Product } from "../../types";
+import { url } from "../../common/common";
 
 const initialState: {
   products: Product[];
@@ -15,8 +16,9 @@ export const fetchAllProductAsync = createAsyncThunk(
   "fetchAllProductAsync",
   async () => {
     try {
-      const jsonData = await fetch("https://api.escuelajs.co/api/v1/products");
-      const data: Product[] = await jsonData.json();
+      const jsonData = await fetch(`${url}/products`);
+      const res = await jsonData.json();
+      const data: Product[] = res.products;
       return data;
     } catch (e) {
       const error = e as Error;
@@ -30,12 +32,6 @@ const productsSlice = createSlice({
   reducers: {
     addOne: (state, action: PayloadAction<Product>) => {
       state.products.push(action.payload);
-    },
-    removeProduct: (state, action: PayloadAction<string>) => {
-      const foundIndex = state.products.findIndex(
-        (p) => p.id === action.payload
-      );
-      state.products.splice(foundIndex, 1);
     },
   },
   extraReducers: (builder) => {
@@ -66,5 +62,5 @@ const productsSlice = createSlice({
   },
 });
 const productReducer = productsSlice.reducer;
-export const { addOne, removeProduct } = productsSlice.actions;
+export const { addOne } = productsSlice.actions;
 export default productReducer;

@@ -22,6 +22,7 @@ export default function UserLogIn() {
       .post(userUrl, userInput)
       .then((response) => {
         console.log(response, "res");
+
         if (response.status === 200) {
           //navigate user profile page
           const token = response.data.accessToken;
